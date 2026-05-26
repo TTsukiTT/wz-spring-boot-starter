@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  仅文件输出：关闭控制台 Appender，复用 Spring Boot 内置 FILE 滚动策略。
+  由 WzLogEnvironmentPostProcessor 在 wz.log.console.enabled=false 时注入 logging.config。
+-->
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+    <include resource="org/springframework/boot/logging/logback/file-appender.xml"/>
+    <root level="INFO">
+        <appender-ref ref="FILE"/>
+    </root>
+</configuration>

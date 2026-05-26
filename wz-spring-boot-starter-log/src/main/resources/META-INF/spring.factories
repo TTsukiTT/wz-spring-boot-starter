@@ -1,0 +1,4 @@
+org.springframework.boot.env.EnvironmentPostProcessor=\
+  com.kwz.starter.log.autoconfigure.WzLogEnvironmentPostProcessor
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.kwz.starter.log.autoconfigure.WzLogAutoConfiguration

@@ -1,0 +1,2 @@
+com.kwz.starter.redis.autoconfigure.WzRedisAutoConfiguration
+com.kwz.starter.redis.autoconfigure.WzRedisRateLimitAutoConfiguration

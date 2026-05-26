@@ -1,0 +1,3 @@
+com.kwz.starter.core.autoconfigure.WzCoreAutoConfiguration
+com.kwz.starter.core.autoconfigure.WzI18nAutoConfiguration
+com.kwz.starter.core.autoconfigure.WzI18nFallbackAutoConfiguration
