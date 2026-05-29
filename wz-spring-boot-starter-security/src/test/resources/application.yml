@@ -1,0 +1,4 @@
+wz:
+  security:
+    jwt:
+      secret: test-secret-key-at-least-32-characters-long
