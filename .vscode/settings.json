@@ -1,0 +1,11 @@
+{
+  "editor.cursorBlinking": "expand",
+  "editor.cursorSmoothCaretAnimation": "on",
+  "java.configuration.runtimes": [
+    {
+      "name": "JavaSE-17",
+      "path": "/Users/weizan/dev/jdks/jdk-17.0.12.jdk/Contents/Home",
+      "default": true
+    },
+  ]
+}

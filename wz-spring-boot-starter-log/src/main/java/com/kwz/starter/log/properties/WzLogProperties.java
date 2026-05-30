@@ -22,7 +22,7 @@ public class WzLogProperties {
         private boolean enabled = true;
 
         /** 日志目录 */
-        private String path = "logs";
+        private String path = "./logs";
 
         /** 日志文件名（不含扩展名） */
         private String name = "app";
