@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.kwz</groupId>
+        <groupId>io.github.ttsukitt</groupId>
         <artifactId>wz-spring-boot-starter</artifactId>
         <version>${revision}</version>
     </parent>
@@ -16,11 +16,11 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.kwz</groupId>
+            <groupId>io.github.ttsukitt</groupId>
             <artifactId>wz-spring-boot-starter-core</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.kwz</groupId>
+            <groupId>io.github.ttsukitt</groupId>
             <artifactId>wz-spring-boot-starter-log</artifactId>
         </dependency>
         <dependency>

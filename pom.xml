@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.kwz</groupId>
+    <groupId>io.github.ttsukitt</groupId>
     <artifactId>wz-spring-boot-starter</artifactId>
     <version>${revision}</version>
     <packaging>pom</packaging>
@@ -70,7 +70,7 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>com.kwz</groupId>
+                <groupId>io.github.ttsukitt</groupId>
                 <artifactId>wz-dependencies</artifactId>
                 <version>${revision}</version>
                 <type>pom</type>
@@ -111,7 +111,7 @@
                 <version>${flatten-maven-plugin.version}</version>
                 <configuration>
                     <updatePomFile>true</updatePomFile>
-                    <flattenMode>resolveCiFriendliesOnly</flattenMode>
+                    <flattenMode>ossrh</flattenMode>
                 </configuration>
                 <executions>
                     <execution>
