@@ -209,6 +209,7 @@
                             <publishingServerId>central</publishingServerId>
                             <autoPublish>true</autoPublish>
                             <waitUntil>published</waitUntil>
+                            <deploymentName>${revision}</deploymentName>
                         </configuration>
                     </plugin>
                 </plugins>

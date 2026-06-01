@@ -17,12 +17,39 @@
     <packaging>pom</packaging>
     <name>wz-spring-boot-starter-parent</name>
     <description>业务项目推荐继承的 Parent POM — 统一 JDK、编译参数与依赖版本</description>
+    <url>https://github.com/TTsukiTT/wz-spring-boot-starter/tree/main/wz-spring-boot-starter-parent</url>
+
+    <licenses>
+        <license>
+            <name>The Apache License, Version 2.0</name>
+            <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <id>weizan</id>
+            <name>weizan</name>
+            <url>https://github.com/TTsukiTT</url>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>scm:git:https://github.com/TTsukiTT/wz-spring-boot-starter.git</connection>
+        <developerConnection>scm:git:https://github.com/TTsukiTT/wz-spring-boot-starter.git</developerConnection>
+        <url>https://github.com/TTsukiTT/wz-spring-boot-starter/tree/main/wz-spring-boot-starter-parent</url>
+        <tag>HEAD</tag>
+    </scm>
 
     <properties>
         <revision>1.0.0</revision>
         <java.version>17</java.version>
         <!-- 保留方法参数名，Spring MVC 可解析 @PathVariable / @RequestParam 省略 name 的写法 -->
         <maven.compiler.parameters>true</maven.compiler.parameters>
+        <flatten-maven-plugin.version>1.6.0</flatten-maven-plugin.version>
+        <maven-gpg-plugin.version>3.2.7</maven-gpg-plugin.version>
+        <central-publishing-maven-plugin.version>0.6.0</central-publishing-maven-plugin.version>
     </properties>
 
     <dependencyManagement>
@@ -38,6 +65,33 @@
     </dependencyManagement>
 
     <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>flatten-maven-plugin</artifactId>
+                <version>${flatten-maven-plugin.version}</version>
+                <configuration>
+                    <updatePomFile>true</updatePomFile>
+                    <flattenMode>ossrh</flattenMode>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>flatten</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>flatten</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>flatten.clean</id>
+                        <phase>clean</phase>
+                        <goals>
+                            <goal>clean</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
         <pluginManagement>
             <plugins>
                 <plugin>
@@ -47,4 +101,54 @@
             </plugins>
         </pluginManagement>
     </build>
+
+    <profiles>
+        <profile>
+            <id>release</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>${maven-gpg-plugin.version}</version>
+                        <configuration>
+                            <gpgArguments>
+                                <arg>--pinentry-mode</arg>
+                                <arg>loopback</arg>
+                            </gpgArguments>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.sonatype.central</groupId>
+                        <artifactId>central-publishing-maven-plugin</artifactId>
+                        <version>${central-publishing-maven-plugin.version}</version>
+                        <extensions>true</extensions>
+                        <executions>
+                            <execution>
+                                <id>central-publish</id>
+                                <phase>deploy</phase>
+                                <goals>
+                                    <goal>publish</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <publishingServerId>central</publishingServerId>
+                            <autoPublish>true</autoPublish>
+                            <waitUntil>published</waitUntil>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>
