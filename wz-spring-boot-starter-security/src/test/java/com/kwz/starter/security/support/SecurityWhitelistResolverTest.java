@@ -4,14 +4,17 @@ import com.kwz.starter.security.annotation.PermitAll;
 import com.kwz.starter.security.properties.WzSecurityProperties;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.context.support.StaticApplicationContext;
+import org.springframework.web.method.HandlerMethod;
+import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -21,18 +24,41 @@ class SecurityWhitelistResolverTest {
     @Test
     void shouldCollectClassAndMethodPermitAllPaths() throws Exception {
         RequestMappingHandlerMapping mapping = new RequestMappingHandlerMapping();
-        mapping.setApplicationContext(new AnnotationConfigApplicationContext(ClassLevelController.class, MethodLevelController.class));
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(
+                ClassLevelController.class, MethodLevelController.class);
+        mapping.setApplicationContext(context);
         mapping.afterPropertiesSet();
 
         Set<String> paths = SecurityWhitelistResolver.collectAnnotatedPaths(mapping);
 
         assertThat(paths).contains("/api/public/info", "/api/auth/login");
         assertThat(paths).doesNotContain("/api/secure/data");
+        context.close();
     }
 
     @Test
-    void shouldResolveWhitelistWhenMultipleHandlerMappingsExist() {
-        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(MultiMappingConfig.class);
+    void shouldResolveWhitelistWhenMultipleHandlerMappingsExist() throws Exception {
+        Map<RequestMappingInfo, HandlerMethod> handlerMethods = new LinkedHashMap<>();
+        handlerMethods.put(
+                RequestMappingInfo.paths("/api/public/info").build(),
+                new HandlerMethod(new ClassLevelController(), ClassLevelController.class.getDeclaredMethod("info"))
+        );
+        handlerMethods.put(
+                RequestMappingInfo.paths("/api/auth/login").build(),
+                new HandlerMethod(new MethodLevelController(), MethodLevelController.class.getDeclaredMethod("login"))
+        );
+        handlerMethods.put(
+                RequestMappingInfo.paths("/api/secure/data").build(),
+                new HandlerMethod(new MethodLevelController(), MethodLevelController.class.getDeclaredMethod("secure"))
+        );
+
+        RequestMappingHandlerMapping mainMapping = new StubRequestMappingHandlerMapping(handlerMethods);
+        RequestMappingHandlerMapping endpointMapping = new StubRequestMappingHandlerMapping(Map.of());
+        StaticApplicationContext context = new StaticApplicationContext();
+        context.getBeanFactory().registerSingleton("requestMappingHandlerMapping", mainMapping);
+        context.getBeanFactory().registerSingleton("controllerEndpointHandlerMapping", endpointMapping);
+        context.refresh();
+
         WzSecurityProperties properties = new WzSecurityProperties();
         properties.getWhitelist().add("/api/open/**");
         properties.setAnnotationWhitelistEnabled(true);
@@ -40,6 +66,7 @@ class SecurityWhitelistResolverTest {
         String[] whitelist = SecurityWhitelistResolver.resolve(properties, context);
 
         assertThat(whitelist).contains("/api/open/**", "/api/public/info", "/api/auth/login");
+        assertThat(whitelist).doesNotContain("/api/secure/data");
         context.close();
     }
 
@@ -68,21 +95,18 @@ class SecurityWhitelistResolverTest {
         }
     }
 
-    @Configuration
-    static class MultiMappingConfig {
+    static class StubRequestMappingHandlerMapping extends RequestMappingHandlerMapping {
 
-        @Bean(name = "requestMappingHandlerMapping")
-        RequestMappingHandlerMapping requestMappingHandlerMapping() throws Exception {
-            RequestMappingHandlerMapping mapping = new RequestMappingHandlerMapping();
-            mapping.setApplicationContext(new AnnotationConfigApplicationContext(
-                    ClassLevelController.class, MethodLevelController.class));
-            mapping.afterPropertiesSet();
-            return mapping;
+        private final Map<RequestMappingInfo, HandlerMethod> handlerMethods;
+
+        StubRequestMappingHandlerMapping(Map<RequestMappingInfo, HandlerMethod> handlerMethods) {
+            this.handlerMethods = handlerMethods;
         }
 
-        @Bean(name = "controllerEndpointHandlerMapping")
-        RequestMappingHandlerMapping controllerEndpointHandlerMapping() {
-            return new RequestMappingHandlerMapping();
+        @Override
+        public Map<RequestMappingInfo, HandlerMethod> getHandlerMethods() {
+            return handlerMethods;
         }
     }
+
 }
