@@ -2,7 +2,7 @@ package com.kwz.starter.security.support;
 
 import com.kwz.starter.security.annotation.PermitAll;
 import com.kwz.starter.security.properties.WzSecurityProperties;
-import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.context.ApplicationContext;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
@@ -21,12 +21,23 @@ public final class SecurityWhitelistResolver {
     }
 
     public static String[] resolve(WzSecurityProperties properties,
-                                     ObjectProvider<RequestMappingHandlerMapping> handlerMappingProvider) {
+                                   ApplicationContext applicationContext) {
         Set<String> paths = new LinkedHashSet<>(properties.getWhitelist());
         if (properties.isAnnotationWhitelistEnabled()) {
-            handlerMappingProvider.ifAvailable(mapping -> paths.addAll(collectAnnotatedPaths(mapping)));
+            RequestMappingHandlerMapping mapping = getMainRequestMappingHandlerMapping(applicationContext);
+            if (mapping != null) {
+                paths.addAll(collectAnnotatedPaths(mapping));
+            }
         }
         return paths.toArray(String[]::new);
+    }
+
+    private static RequestMappingHandlerMapping getMainRequestMappingHandlerMapping(ApplicationContext context) {
+        if (context.containsBean("requestMappingHandlerMapping")) {
+            return context.getBean("requestMappingHandlerMapping", RequestMappingHandlerMapping.class);
+        }
+        Map<String, RequestMappingHandlerMapping> mappings = context.getBeansOfType(RequestMappingHandlerMapping.class);
+        return mappings.getOrDefault("requestMappingHandlerMapping", mappings.values().stream().findFirst().orElse(null));
     }
 
     static Set<String> collectAnnotatedPaths(RequestMappingHandlerMapping mapping) {

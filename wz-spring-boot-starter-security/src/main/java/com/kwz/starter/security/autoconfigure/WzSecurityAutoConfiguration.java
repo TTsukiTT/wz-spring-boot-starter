@@ -17,6 +17,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -25,7 +26,6 @@ import org.springframework.security.config.annotation.web.configurers.HeadersCon
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
 @AutoConfiguration(after = WebMvcAutoConfiguration.class)
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
@@ -81,9 +81,9 @@ public class WzSecurityAutoConfiguration {
                                                      WzAuthenticationEntryPoint authenticationEntryPoint,
                                                      WzAccessDeniedHandler accessDeniedHandler,
                                                      WzSecurityProperties properties,
-                                                     ObjectProvider<RequestMappingHandlerMapping> handlerMappingProvider)
+                                                     ApplicationContext applicationContext)
             throws Exception {
-        String[] whitelist = SecurityWhitelistResolver.resolve(properties, handlerMappingProvider);
+        String[] whitelist = SecurityWhitelistResolver.resolve(properties, applicationContext);
         http.csrf(AbstractHttpConfigurer::disable)
                 .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin))
                 .formLogin(AbstractHttpConfigurer::disable)
