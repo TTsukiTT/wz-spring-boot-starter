@@ -1,9 +1,0 @@
-2026-06-01 16:45:36.767 INFO  [main] [] com.kwz.starter.log.WzTLogAutoConfigurationTest : Starting WzTLogAutoConfigurationTest using Java 17.0.12 with PID 36572 (started by weizan in /Users/weizan/com/kwz/wz-spring-boot-starter/wz-spring-boot-starter-log)
-2026-06-01 16:45:36.768 INFO  [main] [] com.kwz.starter.log.WzTLogAutoConfigurationTest : No active profile set, falling back to 1 default profile: "default"
-2026-06-01 16:45:37.081 INFO  [main] [] com.kwz.starter.log.WzTLogAutoConfigurationTest : Started WzTLogAutoConfigurationTest in 0.413 seconds (process running for 0.704)
-2026-06-01 16:45:37.470 INFO  [main] [] com.kwz.starter.log.WzTLogIntegrationTest : Starting WzTLogIntegrationTest using Java 17.0.12 with PID 36572 (started by weizan in /Users/weizan/com/kwz/wz-spring-boot-starter/wz-spring-boot-starter-log)
-2026-06-01 16:45:37.470 INFO  [main] [] com.kwz.starter.log.WzTLogIntegrationTest : No active profile set, falling back to 1 default profile: "default"
-2026-06-01 16:45:37.544 INFO  [main] [] o.s.b.test.mock.web.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
-2026-06-01 16:45:37.544 INFO  [main] [] o.s.test.web.servlet.TestDispatcherServlet : Initializing Servlet ''
-2026-06-01 16:45:37.544 INFO  [main] [] o.s.test.web.servlet.TestDispatcherServlet : Completed initialization in 0 ms
-2026-06-01 16:45:37.548 INFO  [main] [] com.kwz.starter.log.WzTLogIntegrationTest : Started WzTLogIntegrationTest in 0.085 seconds (process running for 1.171)
