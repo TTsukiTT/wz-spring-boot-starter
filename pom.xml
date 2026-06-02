@@ -54,7 +54,7 @@
     </modules>
 
     <properties>
-        <revision>1.0.0</revision>
+        <revision>1.0.1</revision>
         <java.version>17</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
@@ -72,7 +72,7 @@
             <dependency>
                 <groupId>io.github.ttsukitt</groupId>
                 <artifactId>wz-dependencies</artifactId>
-                <version>${revision}</version>
+                <version>${project.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -112,6 +112,10 @@
                 <configuration>
                     <updatePomFile>true</updatePomFile>
                     <flattenMode>ossrh</flattenMode>
+                    <pomElements>
+                        <dependencyManagement>keep</dependencyManagement>
+                        <properties>keep</properties>
+                    </pomElements>
                 </configuration>
                 <executions>
                     <execution>
@@ -176,6 +180,7 @@
                         <artifactId>maven-gpg-plugin</artifactId>
                         <version>${maven-gpg-plugin.version}</version>
                         <configuration>
+                            <passphraseServerId>gpg-passphrase</passphraseServerId>
                             <gpgArguments>
                                 <arg>--pinentry-mode</arg>
                                 <arg>loopback</arg>

@@ -43,7 +43,7 @@
     </scm>
 
     <properties>
-        <revision>1.0.0</revision>
+        <revision>1.0.1</revision>
         <java.version>17</java.version>
         <!-- 保留方法参数名，Spring MVC 可解析 @PathVariable / @RequestParam 省略 name 的写法 -->
         <maven.compiler.parameters>true</maven.compiler.parameters>
@@ -73,6 +73,10 @@
                 <configuration>
                     <updatePomFile>true</updatePomFile>
                     <flattenMode>ossrh</flattenMode>
+                    <pomElements>
+                        <dependencyManagement>keep</dependencyManagement>
+                        <properties>keep</properties>
+                    </pomElements>
                 </configuration>
                 <executions>
                     <execution>
@@ -112,6 +116,7 @@
                         <artifactId>maven-gpg-plugin</artifactId>
                         <version>${maven-gpg-plugin.version}</version>
                         <configuration>
+                            <passphraseServerId>gpg-passphrase</passphraseServerId>
                             <gpgArguments>
                                 <arg>--pinentry-mode</arg>
                                 <arg>loopback</arg>
