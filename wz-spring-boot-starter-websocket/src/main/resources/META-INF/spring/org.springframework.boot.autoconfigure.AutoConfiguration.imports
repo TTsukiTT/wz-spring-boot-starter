@@ -1,0 +1,2 @@
+com.kwz.starter.websocket.autoconfigure.WzWebSocketAutoConfiguration
+com.kwz.starter.websocket.autoconfigure.WzWebSocketSecurityAutoConfiguration

@@ -50,6 +50,7 @@
         <module>wz-spring-boot-starter-mq</module>
         <module>wz-spring-boot-starter-job</module>
         <module>wz-spring-boot-starter-monitor</module>
+        <module>wz-spring-boot-starter-websocket</module>
         <module>wz-spring-boot-starter-test</module>
     </modules>
 

@@ -119,6 +119,11 @@
             </dependency>
             <dependency>
                 <groupId>io.github.ttsukitt</groupId>
+                <artifactId>wz-spring-boot-starter-websocket</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.ttsukitt</groupId>
                 <artifactId>wz-spring-boot-starter-test</artifactId>
                 <version>${revision}</version>
             </dependency>

@@ -3,6 +3,8 @@ package com.kwz.starter.log.properties;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
+import java.util.List;
+
 /**
  * 日志配置，前缀 wz.log.*
  */
@@ -14,6 +16,7 @@ public class WzLogProperties {
     private Console console = new Console();
     private Pattern pattern = new Pattern();
     private Trace trace = new Trace();
+    private Request request = new Request();
 
     @Data
     public static class File {
@@ -74,5 +77,40 @@ public class WzLogProperties {
 
         /** TLog TraceId 生成器类名，留空使用 TLog 内置默认 */
         private String idGenerator;
+    }
+
+    @Data
+    public static class Request {
+
+        /** 是否记录 HTTP 请求访问日志 */
+        private boolean enabled = true;
+
+        /** 是否在 URI 后附加 query string */
+        private boolean includeQueryString = true;
+
+        /** 是否记录客户端 IP（支持 X-Forwarded-For / X-Real-IP） */
+        private boolean includeClientInfo = true;
+
+        /** 是否打印 User-Agent */
+        private boolean includeUserAgent = true;
+
+        /** HTTP 报文日志是否打印请求头 */
+        private boolean includeRequestHeaders = true;
+
+        /** 慢请求阈值（毫秒），超过则 WARN；0 表示不按耗时升级级别 */
+        private long slowThresholdMs = 1000;
+
+        /** 排除路径（Ant 风格），默认跳过监控与错误页 */
+        private List<String> excludePatterns = List.of(
+                "/actuator/**",
+                "/error",
+                "/favicon.ico"
+        );
+
+        /** 全局打印 HTTP 请求/响应报文（标准报文格式） */
+        private boolean logPayload = false;
+
+        /** 报文最大长度，超出后截断 */
+        private int maxPayloadLength = 2048;
     }
 }
