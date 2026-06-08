@@ -36,7 +36,7 @@
     </scm>
 
     <properties>
-        <revision>1.0.2</revision>
+        <revision>1.0.3</revision>
         <spring-boot.version>3.4.5</spring-boot.version>
         <mybatis-plus.version>3.5.9</mybatis-plus.version>
         <redisson.version>3.41.0</redisson.version>

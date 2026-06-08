@@ -7,7 +7,7 @@
 - 已在 Central Portal 完成账号注册与 namespace 验证
 - 本机可使用 GPG（`gpg --list-secret-keys --keyid-format LONG`）
 - `~/.m2/settings.xml` 已配置 `serverId=central`
-- 待发布版本必须是正式版本（例如 `1.0.1`，不能是 `-SNAPSHOT`）
+- 待发布版本必须是正式版本（例如 `1.0.2`，不能是 `-SNAPSHOT`）
 
 `settings.xml` 示例：
 
@@ -59,14 +59,14 @@ mvn -Prelease -Dmaven.deploy.skip=true clean verify
 将根 `pom.xml` 的 `${revision}` 改为正式版本，例如：
 
 ```xml
-<revision>1.0.1</revision>
+<revision>1.0.2</revision>
 ```
 
 提交版本变更：
 
 ```bash
 git add .
-git commit -m "release: prepare 1.0.1"
+git commit -m "release: prepare 1.0.2"
 ```
 
 ## 3. 发布到 Maven Central
@@ -90,15 +90,15 @@ mvn -Prelease -Dmaven.deploy.skip=true clean deploy
 2. 打 Git Tag 并推送：
 
 ```bash
-git tag v1.0.1
-git push origin v1.0.1
+git tag v1.0.2
+git push origin v1.0.2
 ```
 
-3. 回切到下一开发版本（例如 `1.0.2-SNAPSHOT`）并提交：
+3. 回切到下一开发版本（例如 `1.0.3-SNAPSHOT`）并提交：
 
 ```bash
 git add .
-git commit -m "chore: start next development iteration 1.0.2-SNAPSHOT"
+git commit -m "chore: start next development iteration 1.0.3-SNAPSHOT"
 git push
 ```
 
